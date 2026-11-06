@@ -1,0 +1,107 @@
+---
+title: "What Causes Flight Delays?"
+subtitle: "A look at departures from New York City in 2013"
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library(nycflights13)
+library(dplyr)
+library(ggplot2)
+```
+
+## A year of New York departures
+
+In 2013, **336,776 flights** departed from New York City's three major
+airports: JFK, LaGuardia (LGA), and Newark (EWR). This page looks at when
+departures were scheduled and how late they left.
+
+The word *causes* is a big question: these records can reveal patterns and
+associations, but they cannot by themselves prove why a particular flight was
+delayed. Weather, congestion, and airline operations are possible factors, but
+we would need additional data to test their effects.
+
+## Departure time and delay
+
+Each dot below represents one flight with a recorded departure delay. The
+horizontal axis is its **scheduled** departure time; the vertical axis is how
+many minutes early or late it actually departed. The view is zoomed to delays
+between 30 minutes early and 3 hours late so the dense cluster is easier to
+see.
+
+```{r}
+#| label: fig-scatter
+#| fig-cap: "Each point is a flight; the y-axis is zoomed to show the main cluster."
+#| fig-width: 9
+#| fig-height: 5.5
+
+flights |>
+  filter(!is.na(dep_delay)) |>
+  mutate(
+    scheduled_hour = sched_dep_time %/% 100 +
+      (sched_dep_time %% 100) / 60
+  ) |>
+  ggplot(aes(x = scheduled_hour, y = dep_delay)) +
+  geom_point(alpha = 0.08, size = 0.35, color = "#176B87") +
+  scale_x_continuous(
+    breaks = seq(0, 24, by = 3),
+    limits = c(0, 24),
+    labels = \(x) sprintf("%02d:00", x)
+  ) +
+  coord_cartesian(ylim = c(-30, 180)) +
+  labs(
+    x = "Scheduled departure time",
+    y = "Departure delay (minutes)",
+    caption = "Flights with missing departure-delay values are omitted."
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+The points are heavily concentrated near zero delay, with a thinner spread of
+long delays. Later scheduled flights often appear higher in the plot, but this
+pattern is descriptive—not proof that the time of day itself causes delays.
+
+## Thousands of flights, grouped by delay
+
+This histogram summarizes the same flight records in bins. The bar heights
+show how many flights fell into each delay range, and the dashed line marks a
+15-minute delay.
+
+```{r}
+#| label: fig-histogram
+#| fig-cap: "Departure-delay counts for 328,521 flights with recorded values."
+#| fig-width: 9
+#| fig-height: 4.5
+
+flights |>
+  filter(!is.na(dep_delay)) |>
+  ggplot(aes(x = dep_delay)) +
+  geom_histogram(binwidth = 5, fill = "#176B87", color = "white") +
+  geom_vline(
+    xintercept = 15,
+    linetype = "dashed",
+    color = "#C4492D",
+    linewidth = 0.8
+  ) +
+  coord_cartesian(xlim = c(-30, 180)) +
+  labs(
+    x = "Departure delay (minutes; early departures are negative)",
+    y = "Number of flights",
+    caption = "The x-axis is zoomed to −30 to 180 minutes; the dashed line is 15 minutes late."
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+Of the **328,521 flights with recorded departure delays**, **200,089** left on
+time or early, and **70,774** left more than 15 minutes late. The remaining
+flights were delayed by 15 minutes or less. This is a useful description of
+departures, but it does not identify which factors produced the delays.
+
+## About the data
+
+The data come from the [`nycflights13` R package](https://cran.r-project.org/package=nycflights13).
+Each row represents a scheduled flight. Missing departure delays generally
+correspond to flights that did not depart, so the charts describe flights with
+an observed departure—not cancellations.
