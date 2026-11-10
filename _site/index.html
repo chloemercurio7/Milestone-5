@@ -170,14 +170,80 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<div class="mb-4">
+<p><img src="images/planes.jpg" class="img-fluid" style="border-radius: 12px; max-height: 360px; object-fit: cover; box-shadow: 0 4px 12px rgba(0,0,0,0.08);;width:100.0%" alt="Commercial airplanes at an airport terminal"></p>
+</div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Overview</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Departure Time</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Delay Distribution</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Interactive Game</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">About the Data</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<p>In 2013, <strong>336,776 flights</strong> departed from New York City’s three major airports: JFK, LaGuardia (LGA), and Newark (EWR). This project explores flight delay patterns across scheduled departure times and overall delay distributions.</p>
-<blockquote class="blockquote">
-<p><strong>Key takeaway:</strong> While flight delays can feel random, clear patterns emerge over the course of a day. However, observational data alone shows associations—not direct causes like weather or mechanical issues.</p>
-</blockquote>
+<section id="how-often-are-flights-delayed" class="level3">
+<h3 class="anchored" data-anchor-id="how-often-are-flights-delayed">How Often Are Flights Delayed?</h3>
+<p>Across all <strong>328,521 departed flights</strong> from New York City (JFK, LGA, EWR) in 2013, the majority left on schedule:</p>
+<div class="row text-center g-3 my-3">
+  <div class="col-6 col-md-3">
+    <div class="card h-100 border-0 shadow-sm p-3 bg-light rounded-3">
+      <div class="text-muted small text-uppercase fw-bold">On-Time / Early</div>
+      <div class="display-6 fw-bold text-success">60.9%</div>
+      <div class="small text-secondary">200,089 flights (≤ 0 min)</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card h-100 border-0 shadow-sm p-3 bg-light rounded-3">
+      <div class="text-muted small text-uppercase fw-bold">Minor Delay</div>
+      <div class="display-6 fw-bold text-primary">17.6%</div>
+      <div class="small text-secondary">57,658 flights (1–15 min)</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card h-100 border-0 shadow-sm p-3 bg-light rounded-3">
+      <div class="text-muted small text-uppercase fw-bold">FAA Delayed</div>
+      <div class="display-6 fw-bold text-warning">21.5%</div>
+      <div class="small text-secondary">70,774 flights (&gt; 15 min)</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card h-100 border-0 shadow-sm p-3 bg-light rounded-3">
+      <div class="text-muted small text-uppercase fw-bold">Severe Delay</div>
+      <div class="display-6 fw-bold text-danger">8.1%</div>
+      <div class="small text-secondary">26,581 flights (&gt; 60 min)</div>
+    </div>
+  </div>
+</div>
+<ul>
+<li><strong>60.9%</strong> departed early or on the exact minute.</li>
+<li><strong>17.6%</strong> experienced minor delays under 15 minutes, which airlines still classify as “on-time” under standard aviation metrics.</li>
+<li><strong>21.5%</strong> were officially delayed by more than 15 minutes.</li>
+<li><strong>8.1%</strong> suffered major disruptions exceeding an hour.</li>
+</ul>
+<hr>
+</section>
+<section id="what-actually-causes-flight-delays" class="level3">
+<h3 class="anchored" data-anchor-id="what-actually-causes-flight-delays">What Actually Causes Flight Delays?</h3>
+<p>Flight delays are rarely isolated events. According to official records from the <strong>Bureau of Transportation Statistics (BTS)</strong> and Federal Aviation Administration (FAA), the most common drivers of flight delays are:</p>
+<ul>
+<li><strong>1. Late-Arriving Aircraft (~38% of all delay minutes)</strong>
+<ul>
+<li><em>The “Domino Effect”:</em> Commercial aircraft fly multiple legs per day. When a morning flight into New York arrives 45 minutes late, its afternoon departure is automatically delayed, carrying the delay across the entire network.</li>
+</ul></li>
+<li><strong>2. Air Carrier Operations (~30% of delay minutes)</strong>
+<ul>
+<li>Issues directly under the airline’s management, including mechanical maintenance checks, crew duty-hour limits, baggage loading bottlenecks, and aircraft cleaning/fueling turnaround times.</li>
+</ul></li>
+<li><strong>3. National Aviation System &amp; Airspace Congestion (~24% of delay minutes)</strong>
+<ul>
+<li>Heavy air traffic volume requiring air traffic control (ATC) spacing, runway congestion at peak travel hours, and airport ground stops. NYC airports are among the most congested in the nation.</li>
+</ul></li>
+<li><strong>4. Severe Weather (~7% of delay minutes)</strong>
+<ul>
+<li>Extreme conditions such as thunderstorms, snow blizzards, heavy fog, and high wind shears that halt takeoffs or close flight corridors for passenger safety.</li>
+</ul></li>
+<li><strong>5. Security Breaches (&lt;1% of delay minutes)</strong>
+<ul>
+<li>Rare terminal re-screenings or security perimeter incidents.</li>
+</ul></li>
+</ul>
+</section>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <p>Each dot below represents one flight with a recorded departure delay. The horizontal axis is its <strong>scheduled</strong> departure time; the vertical axis is how many minutes early or late it actually departed. The view is zoomed to delays between 30 minutes early and 3 hours late to show the primary cluster.</p>

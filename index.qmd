@@ -12,15 +12,72 @@ library(dplyr)
 library(ggplot2)
 ```
 
+::: {.mb-4}
+![](images/planes.jpg){fig-alt="Commercial airplanes at an airport terminal" width="100%" style="border-radius: 12px; max-height: 360px; object-fit: cover; box-shadow: 0 4px 12px rgba(0,0,0,0.08);"}
+:::
+
 ::: {.panel-tabset}
 
 ## Overview
 
-In 2013, **336,776 flights** departed from New York City's three major
-airports: JFK, LaGuardia (LGA), and Newark (EWR). This project explores flight delay
-patterns across scheduled departure times and overall delay distributions.
+### How Often Are Flights Delayed?
 
-> **Key takeaway:** While flight delays can feel random, clear patterns emerge over the course of a day. However, observational data alone shows associations—not direct causes like weather or mechanical issues.
+Across all **328,521 departed flights** from New York City (JFK, LGA, EWR) in 2013, the majority left on schedule:
+
+```{=html}
+<div class="row text-center g-3 my-3">
+  <div class="col-6 col-md-3">
+    <div class="card h-100 border-0 shadow-sm p-3 bg-light rounded-3">
+      <div class="text-muted small text-uppercase fw-bold">On-Time / Early</div>
+      <div class="display-6 fw-bold text-success">60.9%</div>
+      <div class="small text-secondary">200,089 flights (≤ 0 min)</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card h-100 border-0 shadow-sm p-3 bg-light rounded-3">
+      <div class="text-muted small text-uppercase fw-bold">Minor Delay</div>
+      <div class="display-6 fw-bold text-primary">17.6%</div>
+      <div class="small text-secondary">57,658 flights (1–15 min)</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card h-100 border-0 shadow-sm p-3 bg-light rounded-3">
+      <div class="text-muted small text-uppercase fw-bold">FAA Delayed</div>
+      <div class="display-6 fw-bold text-warning">21.5%</div>
+      <div class="small text-secondary">70,774 flights (&gt; 15 min)</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card h-100 border-0 shadow-sm p-3 bg-light rounded-3">
+      <div class="text-muted small text-uppercase fw-bold">Severe Delay</div>
+      <div class="display-6 fw-bold text-danger">8.1%</div>
+      <div class="small text-secondary">26,581 flights (&gt; 60 min)</div>
+    </div>
+  </div>
+</div>
+```
+
+- **60.9%** departed early or on the exact minute.
+- **17.6%** experienced minor delays under 15 minutes, which airlines still classify as "on-time" under standard aviation metrics.
+- **21.5%** were officially delayed by more than 15 minutes.
+- **8.1%** suffered major disruptions exceeding an hour.
+
+---
+
+### What Actually Causes Flight Delays?
+
+Flight delays are rarely isolated events. According to official records from the **Bureau of Transportation Statistics (BTS)** and Federal Aviation Administration (FAA), the most common drivers of flight delays are:
+
+- **1. Late-Arriving Aircraft (~38% of all delay minutes)**
+  - *The "Domino Effect":* Commercial aircraft fly multiple legs per day. When a morning flight into New York arrives 45 minutes late, its afternoon departure is automatically delayed, carrying the delay across the entire network.
+- **2. Air Carrier Operations (~30% of delay minutes)**
+  - Issues directly under the airline's management, including mechanical maintenance checks, crew duty-hour limits, baggage loading bottlenecks, and aircraft cleaning/fueling turnaround times.
+- **3. National Aviation System & Airspace Congestion (~24% of delay minutes)**
+  - Heavy air traffic volume requiring air traffic control (ATC) spacing, runway congestion at peak travel hours, and airport ground stops. NYC airports are among the most congested in the nation.
+- **4. Severe Weather (~7% of delay minutes)**
+  - Extreme conditions such as thunderstorms, snow blizzards, heavy fog, and high wind shears that halt takeoffs or close flight corridors for passenger safety.
+- **5. Security Breaches (<1% of delay minutes)**
+  - Rare terminal re-screenings or security perimeter incidents.
 
 ## Departure Time
 
