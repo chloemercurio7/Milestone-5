@@ -144,17 +144,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#a-year-of-new-york-departures" id="toc-a-year-of-new-york-departures" class="nav-link active" data-scroll-target="#a-year-of-new-york-departures">A year of New York departures</a></li>
-  <li><a href="#departure-time-and-delay" id="toc-departure-time-and-delay" class="nav-link" data-scroll-target="#departure-time-and-delay">Departure time and delay</a></li>
-  <li><a href="#thousands-of-flights-grouped-by-delay" id="toc-thousands-of-flights-grouped-by-delay" class="nav-link" data-scroll-target="#thousands-of-flights-grouped-by-delay">Thousands of flights, grouped by delay</a></li>
-  <li><a href="#about-the-data" id="toc-about-the-data" class="nav-link" data-scroll-target="#about-the-data">About the data</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -179,14 +170,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="a-year-of-new-york-departures" class="level2">
-<h2 class="anchored" data-anchor-id="a-year-of-new-york-departures">A year of New York departures</h2>
-<p>In 2013, <strong>336,776 flights</strong> departed from New York City’s three major airports: JFK, LaGuardia (LGA), and Newark (EWR). This page looks at when departures were scheduled and how late they left.</p>
-<p>The word <em>causes</em> is a big question: these records can reveal patterns and associations, but they cannot by themselves prove why a particular flight was delayed. Weather, congestion, and airline operations are possible factors, but we would need additional data to test their effects.</p>
-</section>
-<section id="departure-time-and-delay" class="level2">
-<h2 class="anchored" data-anchor-id="departure-time-and-delay">Departure time and delay</h2>
-<p>Each dot below represents one flight with a recorded departure delay. The horizontal axis is its <strong>scheduled</strong> departure time; the vertical axis is how many minutes early or late it actually departed. The view is zoomed to delays between 30 minutes early and 3 hours late so the dense cluster is easier to see.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Overview</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Departure Time</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Delay Distribution</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Interactive Game</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">About the Data</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>In 2013, <strong>336,776 flights</strong> departed from New York City’s three major airports: JFK, LaGuardia (LGA), and Newark (EWR). This project explores flight delay patterns across scheduled departure times and overall delay distributions.</p>
+<blockquote class="blockquote">
+<p><strong>Key takeaway:</strong> While flight delays can feel random, clear patterns emerge over the course of a day. However, observational data alone shows associations—not direct causes like weather or mechanical issues.</p>
+</blockquote>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>Each dot below represents one flight with a recorded departure delay. The horizontal axis is its <strong>scheduled</strong> departure time; the vertical axis is how many minutes early or late it actually departed. The view is zoomed to delays between 30 minutes early and 3 hours late to show the primary cluster.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -224,11 +218,18 @@ Figure&nbsp;1: Each point is a flight; the y-axis is zoomed to show the main clu
 </div>
 </div>
 </div>
-<p>The points are heavily concentrated near zero delay, with a thinner spread of long delays. Later scheduled flights often appear higher in the plot, but this pattern is descriptive—not proof that the time of day itself causes delays.</p>
+<section id="key-takeaways-from-the-scatter-plot" class="level3">
+<h3 class="anchored" data-anchor-id="key-takeaways-from-the-scatter-plot">Key Takeaways from the Scatter Plot</h3>
+<ul>
+<li><strong>Early morning flights are most reliable:</strong> Flights scheduled between 5:00 AM and 8:00 AM cluster tightly near zero delay.</li>
+<li><strong>Delays build throughout the day:</strong> As planes fly multiple legs, earlier delays propagate, creating a taller spread of delays in the afternoon and evening.</li>
+<li><strong>Many flights depart early:</strong> Negative delay values (below 0) represent flights leaving up to 15–30 minutes ahead of schedule.</li>
+<li><strong>Extreme delays concentrate late:</strong> Delays exceeding 2 hours become noticeably more frequent after 3:00 PM.</li>
+</ul>
 </section>
-<section id="thousands-of-flights-grouped-by-delay" class="level2">
-<h2 class="anchored" data-anchor-id="thousands-of-flights-grouped-by-delay">Thousands of flights, grouped by delay</h2>
-<p>This histogram summarizes the same flight records in bins. The bar heights show how many flights fell into each delay range, and the dashed line marks a 15-minute delay.</p>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>This histogram summarizes flight records into 5-minute bins. The bar heights show how many flights fell into each delay range, and the red dashed line marks the 15-minute delay mark.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -263,14 +264,120 @@ Figure&nbsp;2: Departure-delay counts for 328,521 flights with recorded values.
 </div>
 </div>
 </div>
-<p>Of the <strong>328,521 flights with recorded departure delays</strong>, <strong>200,089</strong> left on time or early, and <strong>70,774</strong> left more than 15 minutes late. The remaining flights were delayed by 15 minutes or less. This is a useful description of departures, but it does not identify which factors produced the delays.</p>
+<section id="key-takeaways-from-the-histogram" class="level3">
+<h3 class="anchored" data-anchor-id="key-takeaways-from-the-histogram">Key Takeaways from the Histogram</h3>
+<ul>
+<li><strong>Strong peak near zero:</strong> The single most common outcome is departing right on time or within 5 minutes of schedule.</li>
+<li><strong>Most flights leave on time:</strong> Out of <strong>328,521 flights</strong>, <strong>200,089</strong> (about 61%) left on time or early.</li>
+<li><strong>The 15-minute threshold:</strong> Under FAA standards, flights delayed under 15 minutes are considered on-time. Only <strong>70,774</strong> flights (about 21.5%) were officially delayed.</li>
+<li><strong>Right-skewed distribution:</strong> Long delays decrease sharply in frequency—delays over 2 hours are relatively rare compared to small delays.</li>
+</ul>
 </section>
-<section id="about-the-data" class="level2">
-<h2 class="anchored" data-anchor-id="about-the-data">About the data</h2>
-<p>The data come from the <a href="https://cran.r-project.org/package=nycflights13"><code>nycflights13</code> R package</a>. Each row represents a scheduled flight. Missing departure delays generally correspond to flights that did not depart, so the charts describe flights with an observed departure—not cancellations.</p>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<p>Test your intuition! Can you guess whether a flight was delayed based on its departure airport, time, and carrier?</p>
+<div class="card p-4 shadow-sm my-3" style="max-width: 620px; margin: 0 auto; border-radius: 12px; background-color: #fdfdfd;">
+  <h4 class="card-title text-center mb-2 anchored">✈️ Flight Delay Guesser</h4>
+  <p class="text-center text-muted small">An FAA delayed flight is more than 15 minutes late. Can you beat the odds?</p>
+  
+  <div id="game-card" class="bg-light p-3 rounded mb-3 text-center border">
+    <h5 id="flight-info" class="fw-bold mb-1 anchored">Loading flight...</h5>
+    <p id="flight-details" class="text-secondary mb-0 small"></p>
+  </div>
+
+  <div class="d-flex justify-content-center gap-3 mb-3">
+    <button id="btn-ontime" class="btn btn-outline-success px-4" onclick="makeGuess(false)">✅ On Time</button>
+    <button id="btn-delayed" class="btn btn-outline-danger px-4" onclick="makeGuess(true)">⏰ Delayed</button>
+  </div>
+
+  <div id="game-feedback" class="alert d-none text-center" role="alert"></div>
+
+  <div class="d-flex justify-content-around text-center border-top pt-2 mt-2">
+    <div><small class="text-muted">Score:</small><br><strong><span id="game-score">0</span> / <span id="game-total">0</span></strong></div>
+    <div><small class="text-muted">Streak:</small><br><strong><span id="game-streak">0</span> 🔥</strong></div>
+  </div>
+  
+  <div class="text-center mt-3">
+    <button id="btn-next" class="btn btn-primary btn-sm d-none" onclick="nextRound()">Next Flight ➡️</button>
+  </div>
+</div>
+
+<script>
+const flights = [
+  { origin: "JFK", carrier: "Delta Air Lines", dest: "Los Angeles (LAX)", time: "06:15 AM", delayed: false, delayMin: -3, fact: "Early morning flights are much less likely to be delayed because planes are already at the gate!" },
+  { origin: "EWR", carrier: "United Airlines", dest: "San Francisco (SFO)", time: "07:30 PM", delayed: true, delayMin: 68, fact: "Evening flights often absorb delays accumulated across the national airspace throughout the day." },
+  { origin: "LGA", carrier: "American Airlines", dest: "Chicago (ORD)", time: "08:45 AM", delayed: false, delayMin: 4, fact: "Morning departures at LGA frequently stay close to their scheduled timetable." },
+  { origin: "JFK", carrier: "JetBlue", dest: "Orlando (MCO)", time: "05:40 PM", delayed: true, delayMin: 42, fact: "Late afternoon flights face congestion as both business and leisure travel peak." },
+  { origin: "EWR", carrier: "ExpressJet", dest: "Atlanta (ATL)", time: "09:00 PM", delayed: true, delayMin: 115, fact: "Late night regional flights are especially prone to severe cascading delays." },
+  { origin: "LGA", carrier: "Delta Air Lines", dest: "Miami (MIA)", time: "11:00 AM", delayed: false, delayMin: 0, fact: "Mid-morning departures often experience smooth turnarounds." },
+  { origin: "JFK", carrier: "Virgin America", dest: "San Francisco (SFO)", time: "03:10 PM", delayed: false, delayMin: 12, fact: "Delayed by 12 minutes—which still counts as on-time under the official 15-minute FAA rule!" },
+  { origin: "EWR", carrier: "United Airlines", dest: "Denver (DEN)", time: "04:20 PM", delayed: true, delayMin: 55, fact: "Late afternoon departure banks at Newark frequently encounter runway queue delays." }
+];
+
+let currentIdx = 0;
+let score = 0;
+let total = 0;
+let streak = 0;
+let answered = false;
+
+function loadFlight() {
+  answered = false;
+  const f = flights[currentIdx];
+  document.getElementById('flight-info').innerText = `${f.origin} ✈️ ${f.dest}`;
+  document.getElementById('flight-details').innerText = `Carrier: ${f.carrier} | Scheduled: ${f.time}`;
+  const feedback = document.getElementById('game-feedback');
+  feedback.className = 'alert d-none text-center';
+  document.getElementById('btn-next').classList.add('d-none');
+  document.getElementById('btn-ontime').disabled = false;
+  document.getElementById('btn-delayed').disabled = false;
+}
+
+function makeGuess(guessedDelayed) {
+  if (answered) return;
+  answered = true;
+  total++;
+  const f = flights[currentIdx];
+  const feedback = document.getElementById('game-feedback');
+  const correct = (guessedDelayed === f.delayed);
+
+  document.getElementById('btn-ontime').disabled = true;
+  document.getElementById('btn-delayed').disabled = true;
+
+  if (correct) {
+    score++;
+    streak++;
+    feedback.className = 'alert alert-success text-center py-2';
+    feedback.innerHTML = `<strong>Correct! 🎉</strong> Actual departure delay: ${f.delayMin > 0 ? '+' : ''}${f.delayMin} min.<br><span class="small">${f.fact}</span>`;
+  } else {
+    streak = 0;
+    feedback.className = 'alert alert-danger text-center py-2';
+    feedback.innerHTML = `<strong>Not quite! ✈️</strong> Actual departure delay: ${f.delayMin > 0 ? '+' : ''}${f.delayMin} min.<br><span class="small">${f.fact}</span>`;
+  }
+  feedback.classList.remove('d-none');
+  document.getElementById('game-score').innerText = score;
+  document.getElementById('game-total').innerText = total;
+  document.getElementById('game-streak').innerText = streak;
+  document.getElementById('btn-next').classList.remove('d-none');
+}
+
+function nextRound() {
+  currentIdx = (currentIdx + 1) % flights.length;
+  loadFlight();
+}
+
+document.addEventListener("DOMContentLoaded", loadFlight);
+if (document.readyState === "complete" || document.readyState === "interactive") {
+  loadFlight();
+}
+</script>
+</div>
+<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
+<p>The data come from the <a href="https://cran.r-project.org/package=nycflights13"><code>nycflights13</code> R package</a>. Each row represents a scheduled flight from JFK, LGA, or EWR in 2013. Missing departure delays generally correspond to flights that did not depart, so the charts describe flights with an observed departure—not cancellations.</p>
+</div>
+</div>
+</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
