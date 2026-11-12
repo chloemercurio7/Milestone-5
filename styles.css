@@ -1,0 +1,338 @@
+/* Aviation Intelligence Platform Stylesheet */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --primary-navy: #14283F;
+  --secondary-slate: #263F57;
+  --bg-main: #EAF2F8; /* Refined Pastel Blue */
+  --bg-secondary: #DEECF5;
+  --card-bg: #FFFFFF;
+  --muted-teal: #287D9B;
+  --warning-amber: #D69A43;
+  --success-green: #25845D;
+  --error-red: #C65353;
+  --text-primary: #192B3A;
+  --text-secondary: #5F7387;
+  --border-subtle: #D4E3ED;
+  --border-medium: #BDD4E4;
+  --card-radius: 8px;
+  --shadow-subtle: 0 1px 4px rgba(20, 40, 63, 0.05);
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-main);
+  background-image: 
+    url('images/plane-decal.svg'),
+    url('images/cloud-decal.svg'),
+    url('images/cloud-decal.svg');
+  background-position: 
+    right 5% top 120px,
+    left 3% top 320px,
+    right 8% bottom 140px;
+  background-size: 
+    280px auto,
+    240px auto,
+    300px auto;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Typography tokens */
+.font-mono,
+.mono-data,
+.flight-code,
+.airport-code,
+.timestamp,
+.stat-number {
+  font-family: 'IBM Plex Mono', Menlo, Consolas, monospace !important;
+}
+
+/* Header & Top Bar */
+.navbar-custom {
+  background-color: var(--primary-navy);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 24px;
+}
+
+.navbar-brand-custom {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #FFFFFF !important;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.2px;
+  text-decoration: none;
+}
+
+.brand-badge {
+  background-color: var(--muted-teal);
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* KPI Cards */
+.kpi-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--card-radius);
+  padding: 16px 20px;
+  box-shadow: var(--shadow-subtle);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.kpi-card:hover {
+  border-color: var(--border-medium);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+}
+
+.kpi-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.kpi-value {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.kpi-subtext {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* Flight search bar */
+.search-container {
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--card-radius);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  box-shadow: var(--shadow-subtle);
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--text-primary);
+  background: transparent;
+}
+
+.search-input::placeholder {
+  color: var(--text-secondary);
+}
+
+/* Tables */
+.aviation-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  font-size: 13px;
+  margin-bottom: 0 !important;
+}
+
+.aviation-table th {
+  background: #F8FAFC !important;
+  color: var(--text-secondary) !important;
+  font-weight: 600 !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  padding: 10px 14px !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+  border-top: none !important;
+  text-align: left !important;
+}
+
+.aviation-table td {
+  padding: 12px 14px !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+  border-top: none !important;
+  vertical-align: middle !important;
+  color: var(--text-primary);
+}
+
+.aviation-table tbody tr:last-child td {
+  border-bottom: none !important;
+}
+
+.aviation-table tbody tr:hover td {
+  background-color: #F8FAFC;
+}
+
+/* Status Badges */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.status-ontime {
+  background-color: rgba(37, 132, 93, 0.1);
+  color: var(--success-green);
+  border: 1px solid rgba(37, 132, 93, 0.25);
+}
+
+.status-delayed {
+  background-color: rgba(198, 83, 83, 0.1);
+  color: var(--error-red);
+  border: 1px solid rgba(198, 83, 83, 0.25);
+}
+
+.status-warning {
+  background-color: rgba(214, 154, 67, 0.1);
+  color: var(--warning-amber);
+  border: 1px solid rgba(214, 154, 67, 0.25);
+}
+
+/* Panel cards */
+.panel-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--card-radius);
+  padding: 24px;
+  box-shadow: var(--shadow-subtle);
+  margin-bottom: 24px;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+
+.panel-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--primary-navy);
+  margin: 0;
+}
+
+.panel-subtitle {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* Minimal Footer */
+.aviation-footer {
+  border-top: 1px solid var(--border-subtle);
+  background: #FFFFFF;
+  padding: 28px 0;
+  margin-top: 56px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+/* Quarto Navbar overrides for Linear / Bloomberg feel */
+.navbar {
+  background-color: var(--primary-navy) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+  font-size: 13px !important;
+  padding: 10px 16px !important;
+}
+
+.navbar-brand {
+  font-weight: 700 !important;
+  letter-spacing: -0.3px !important;
+  font-size: 15px !important;
+  color: #FFFFFF !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.navbar-nav .nav-link {
+  color: #94A3B8 !important;
+  font-weight: 500 !important;
+  padding: 6px 12px !important;
+  border-radius: 6px !important;
+  transition: all 0.15s ease !important;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: #FFFFFF !important;
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Tabset styling */
+.nav-tabs {
+  border-bottom: 1px solid var(--border-subtle) !important;
+  margin-bottom: 24px !important;
+}
+
+.nav-tabs .nav-link {
+  color: var(--text-secondary) !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  border: none !important;
+  border-bottom: 2px solid transparent !important;
+  padding: 10px 16px !important;
+  border-radius: 0 !important;
+}
+
+.nav-tabs .nav-link.active {
+  color: var(--primary-navy) !important;
+  background: transparent !important;
+  border-bottom: 2px solid var(--muted-teal) !important;
+  font-weight: 600 !important;
+}
+
+/* Cause progress bar */
+.cause-item {
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--card-radius);
+  padding: 16px 20px;
+  margin-bottom: 12px;
+}
+
+.cause-bar-bg {
+  background-color: #EEF2F6;
+  border-radius: 4px;
+  height: 6px;
+  width: 100%;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.cause-bar-fill {
+  background-color: var(--muted-teal);
+  height: 100%;
+  border-radius: 4px;
+}
+
