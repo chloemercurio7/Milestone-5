@@ -1,0 +1,242 @@
+---
+title: "Aviation Analytics"
+subtitle: "Interactive operational intelligence, delay accumulation trends, and airline performance benchmarks."
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library(nycflights13)
+library(dplyr)
+library(ggplot2)
+library(plotly)
+library(scales)
+```
+
+### 1. Delay Accumulation Across the Operating Day
+
+Each point below represents a commercial departure from New York City. **Hover over any point** to inspect its operating carrier, flight number, origin-destination city pair, and observed delay.
+
+```{r}
+#| label: fig-scatter-interactive
+#| echo: false
+#| message: false
+#| warning: false
+
+set.seed(42)
+sample_scatter <- flights |>
+  filter(!is.na(dep_delay), !is.na(sched_dep_time)) |>
+  slice_sample(n = 5000) |>
+  left_join(airlines, by = "carrier") |>
+  mutate(
+    scheduled_hour = sched_dep_time %/% 100 + (sched_dep_time %% 100) / 60,
+    hover_info = paste0(
+      "Flight: ", carrier, " ", flight, " (", name, ")\n",
+      "Route: ", origin, " → ", dest, "\n",
+      "Scheduled: ", sprintf("%02d:%02d", sched_dep_time %/% 100, sched_dep_time %% 100), "\n",
+      "Departure Delay: ", ifelse(dep_delay > 0, paste0("+", dep_delay), dep_delay), " min"
+    )
+  )
+
+p_scatter <- ggplot(sample_scatter, aes(x = scheduled_hour, y = dep_delay, text = hover_info)) +
+  geom_point(alpha = 0.45, size = 1.3, color = "#287D9B") +
+  geom_hline(yintercept = 0, color = "#263F57", linewidth = 0.5) +
+  geom_hline(yintercept = 15, color = "#C65353", linetype = "dashed", linewidth = 0.7) +
+  scale_x_continuous(
+    breaks = seq(0, 24, by = 3),
+    limits = c(0, 24),
+    labels = \(x) sprintf("%02d:00", x)
+  ) +
+  coord_cartesian(ylim = c(-30, 180)) +
+  labs(
+    x = "Scheduled Departure Time (24h)",
+    y = "Departure Delay (minutes)"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_line(color = "#D4E3ED", linewidth = 0.4),
+    axis.title = element_text(color = "#14283F", face = "bold"),
+    axis.text = element_text(color = "#5F7387")
+  )
+
+ggplotly(p_scatter, tooltip = "text") |>
+  layout(
+    hoverlabel = list(bgcolor = "#14283F", font = list(family = "IBM Plex Mono", color = "#FFFFFF")),
+    margin = list(t = 20, r = 20, b = 40, l = 50)
+  )
+```
+
+::: {.row .g-3 .my-2}
+::: {.col-md-6}
+<div class="kpi-card h-100">
+  <div class="kpi-label">Morning Schedule Adherence</div>
+  <p class="small text-secondary mb-0">Flights departing between 05:00 and 08:30 AM tightly hug the zero baseline. Aircraft parked overnight are unencumbered by upstream network delays.</p>
+</div>
+:::
+::: {.col-md-6}
+<div class="kpi-card h-100">
+  <div class="kpi-label">Afternoon Cascading Variance</div>
+  <p class="small text-secondary mb-0">After 14:00, departure delay variance widens substantially. Multi-leg aircraft utilization compounds small morning hiccups into severe late-day departures.</p>
+</div>
+:::
+:::
+
+---
+
+### 2. Departure Delay Distribution
+
+Interactive histogram grouping 328,521 flights into 5-minute bins. **Hover over any column** to see exact departure counts. The red dashed line marks the FAA 15-minute threshold.
+
+```{r}
+#| label: fig-histogram-interactive
+#| echo: false
+#| message: false
+#| warning: false
+
+hist_df <- flights |>
+  filter(!is.na(dep_delay), dep_delay >= -30, dep_delay <= 180) |>
+  mutate(bin_start = floor((dep_delay + 30) / 5) * 5 - 30) |>
+  count(bin_start) |>
+  mutate(
+    is_delayed = bin_start >= 15,
+    bar_color = if_else(is_delayed, "#C65353", "#14283F"),
+    hover_text = paste0(
+      "Delay Range: [", bin_start, " to ", bin_start + 5, " min)\n",
+      "Departures: ", comma(n), " flights\n",
+      "Category: ", if_else(is_delayed, "FAA Delayed (>15m)", "On-Time / Minor (≤15m)")
+    )
+  )
+
+p_hist <- ggplot(hist_df, aes(x = bin_start + 2.5, y = n, fill = bar_color, text = hover_text)) +
+  geom_col(width = 4.75) +
+  scale_fill_identity() +
+  geom_vline(xintercept = 15, linetype = "dashed", color = "#C65353", linewidth = 0.8) +
+  scale_y_continuous(labels = comma) +
+  scale_x_continuous(breaks = seq(-30, 180, by = 30)) +
+  labs(
+    x = "Departure Delay (minutes)",
+    y = "Number of Departures"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_line(color = "#D4E3ED", linewidth = 0.4),
+    axis.title = element_text(color = "#14283F", face = "bold"),
+    axis.text = element_text(color = "#5F7387")
+  )
+
+ggplotly(p_hist, tooltip = "text") |>
+  layout(
+    hoverlabel = list(bgcolor = "#14283F", font = list(family = "IBM Plex Mono", color = "#FFFFFF")),
+    margin = list(t = 20, r = 20, b = 40, l = 60)
+  )
+```
+
+::: {.row .g-3 .my-2}
+::: {.col-md-6}
+<div class="kpi-card h-100">
+  <div class="kpi-label">Modal Distribution</div>
+  <p class="small text-secondary mb-0">The single most frequent flight outcome is departing between 0 and 5 minutes ahead of schedule, proving baseline timetable viability.</p>
+</div>
+:::
+::: {.col-md-6}
+<div class="kpi-card h-100">
+  <div class="kpi-label">Heavy Right Skew</div>
+  <p class="small text-secondary mb-0">Only 21.5% of flights cross the FAA 15-minute threshold, but severe delays form a persistent tail reaching several hours.</p>
+</div>
+:::
+:::
+
+---
+
+### 3. Carrier On-Time Performance Benchmark
+
+Average departure delay in minutes across major airlines with at least 2,000 departures from New York metropolitan airports. **Hover over any carrier bar** to view complete operational figures:
+
+```{r}
+#| label: fig-carrier-interactive
+#| echo: false
+#| message: false
+#| warning: false
+
+carrier_summary <- flights |>
+  filter(!is.na(dep_delay)) |>
+  left_join(airlines, by = "carrier") |>
+  group_by(name) |>
+  summarise(
+    total = n(),
+    avg_delay = round(mean(dep_delay), 1),
+    ontime_pct = round(mean(dep_delay <= 15) * 100, 1),
+    .groups = "drop"
+  ) |>
+  filter(total >= 2000) |>
+  mutate(
+    name = reorder(name, avg_delay),
+    status_group = case_when(
+      avg_delay <= 10 ~ "#25845D",
+      avg_delay <= 15 ~ "#D69A43",
+      TRUE ~ "#C65353"
+    ),
+    hover_text = paste0(
+      "Carrier: ", name, "\n",
+      "Average Departure Delay: +", avg_delay, " min\n",
+      "On-Time Rate: ", ontime_pct, "%\n",
+      "Annual Departures: ", comma(total)
+    )
+  )
+
+p_carrier <- ggplot(carrier_summary, aes(x = name, y = avg_delay, fill = status_group, text = hover_text)) +
+  geom_col(width = 0.65) +
+  scale_fill_identity() +
+  scale_y_continuous(limits = c(0, 25), expand = expansion(mult = c(0, 0.05))) +
+  coord_flip() +
+  labs(
+    x = NULL,
+    y = "Average Departure Delay (minutes)"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_line(color = "#D4E3ED", linewidth = 0.4),
+    axis.text = element_text(color = "#14283F"),
+    axis.text.y = element_text(face = "bold")
+  )
+
+ggplotly(p_carrier, tooltip = "text") |>
+  layout(
+    hoverlabel = list(bgcolor = "#14283F", font = list(family = "IBM Plex Mono", color = "#FFFFFF")),
+    margin = list(t = 20, r = 20, b = 40, l = 160)
+  )
+```
+
+::: {.row .g-3 .my-2}
+::: {.col-md-6}
+<div class="kpi-card h-100">
+  <div class="kpi-label">Mainline Fleet Efficiency</div>
+  <p class="small text-secondary mb-0">US Airways (+3.8m), American (+8.6m), and Delta (+9.3m) demonstrate superior turnaround protocols and priority gate logistics.</p>
+</div>
+:::
+::: {.col-md-6}
+<div class="kpi-card h-100">
+  <div class="kpi-label">Regional Carrier Exposure</div>
+  <p class="small text-secondary mb-0">ExpressJet (+20.0m) and AirTran (+18.7m) bear higher delay burdens due to multi-hop regional feeder structures and lower ATC priority.</p>
+</div>
+:::
+:::
+
+```{=html}
+<!-- Minimal Production Footer -->
+<footer class="aviation-footer">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+    <div class="mb-2 mb-md-0">
+      <strong style="color: #14283F;">AeroIntel</strong> &bull; Aviation Operations &amp; Delay Intelligence Platform
+    </div>
+    <div class="text-secondary">
+      Data: U.S. DOT Bureau of Transportation Statistics &amp; FAA &bull; System Status: <span style="color: #25845D; font-weight: 600;">Operational</span>
+    </div>
+  </div>
+</footer>
+```

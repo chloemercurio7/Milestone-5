@@ -1,0 +1,125 @@
+---
+title: "Flight Delay Guesser"
+subtitle: "Interactive operational simulator: test your intuition against real-world airline departure data."
+---
+
+```{=html}
+<div class="panel-card my-4" style="max-width: 680px; margin: 0 auto;">
+  <div class="panel-header">
+    <h4 class="panel-title">Operations Simulator: Delay Predictor</h4>
+    <span class="badge" style="background-color: #14283F;">FAA 15-MIN RULE</span>
+  </div>
+  
+  <p class="text-secondary small mb-3">An FAA delayed flight departed more than 15 minutes past schedule. Evaluate the flight attributes below and predict whether this departure was delayed or on-time:</p>
+  
+  <div id="game-card" class="p-4 mb-3 border rounded text-center" style="background-color: #F8FAFC; border-color: #D4E3ED !important;">
+    <h4 id="flight-info" class="fw-bold font-mono mb-2" style="color: #14283F;">Loading flight...</h4>
+    <div id="flight-details" class="text-secondary small font-mono"></div>
+  </div>
+
+  <div class="d-flex justify-content-center gap-3 mb-3">
+    <button id="btn-ontime" class="btn btn-outline-success px-4 fw-semibold" onclick="makeGuess(false)">● On Time (&le;15m)</button>
+    <button id="btn-delayed" class="btn btn-outline-danger px-4 fw-semibold" onclick="makeGuess(true)">▲ Delayed (&gt;15m)</button>
+  </div>
+
+  <div id="game-feedback" class="alert d-none text-center" role="alert"></div>
+
+  <div class="d-flex justify-content-around text-center border-top pt-3 mt-3">
+    <div>
+      <div class="text-muted small text-uppercase">Accuracy Score</div>
+      <div class="font-mono fw-bold fs-5"><span id="game-score">0</span> / <span id="game-total">0</span></div>
+    </div>
+    <div>
+      <div class="text-muted small text-uppercase">Current Streak</div>
+      <div class="font-mono fw-bold fs-5" style="color: #D69A43;"><span id="game-streak">0</span> 🔥</div>
+    </div>
+  </div>
+  
+  <div class="text-center mt-3">
+    <button id="btn-next" class="btn btn-primary btn-sm d-none" style="background-color: #14283F; border-color: #14283F;" onclick="nextRound()">Next Flight &rarr;</button>
+  </div>
+</div>
+
+<script>
+const flights = [
+  { origin: "JFK", carrier: "Delta Air Lines", dest: "Los Angeles (LAX)", time: "06:15 AM", delayed: false, delayMin: -3, fact: "Early morning flights are much less likely to be delayed because planes are already parked at gates overnight." },
+  { origin: "EWR", carrier: "United Airlines", dest: "San Francisco (SFO)", time: "07:30 PM", delayed: true, delayMin: 68, fact: "Evening transcontinental flights often absorb delays accumulated across multiple upstream airspace legs." },
+  { origin: "LGA", carrier: "American Airlines", dest: "Chicago (ORD)", time: "08:45 AM", delayed: false, delayMin: 4, fact: "Morning departures at LGA frequently depart within scheduled slots." },
+  { origin: "JFK", carrier: "JetBlue", dest: "Orlando (MCO)", time: "05:40 PM", delayed: true, delayMin: 42, fact: "Late afternoon flights face congestion as leisure and business banks intersect." },
+  { origin: "EWR", carrier: "ExpressJet", dest: "Atlanta (ATL)", time: "09:00 PM", delayed: true, delayMin: 115, fact: "Late night regional flights are especially vulnerable to cascading crew duty-hour limits." },
+  { origin: "LGA", carrier: "Delta Air Lines", dest: "Miami (MIA)", time: "11:00 AM", delayed: false, delayMin: 0, fact: "Mid-morning turnarounds at LGA maintain high schedule adherence." },
+  { origin: "JFK", carrier: "Virgin America", dest: "San Francisco (SFO)", time: "03:10 PM", delayed: false, delayMin: 12, fact: "Delayed by 12 minutes—which still qualifies as on-time under the official 15-minute FAA standard!" },
+  { origin: "EWR", carrier: "United Airlines", dest: "Denver (DEN)", time: "04:20 PM", delayed: true, delayMin: 55, fact: "Late afternoon departure banks at Newark frequently incur taxi-out ground queue holds." }
+];
+
+let currentIdx = 0;
+let score = 0;
+let total = 0;
+let streak = 0;
+let answered = false;
+
+function loadFlight() {
+  answered = false;
+  const f = flights[currentIdx];
+  document.getElementById('flight-info').innerText = `${f.origin} ✈ ${f.dest}`;
+  document.getElementById('flight-details').innerText = `Carrier: ${f.carrier} | Scheduled: ${f.time}`;
+  const feedback = document.getElementById('game-feedback');
+  feedback.className = 'alert d-none text-center';
+  document.getElementById('btn-next').classList.add('d-none');
+  document.getElementById('btn-ontime').disabled = false;
+  document.getElementById('btn-delayed').disabled = false;
+}
+
+function makeGuess(guessedDelayed) {
+  if (answered) return;
+  answered = true;
+  total++;
+  const f = flights[currentIdx];
+  const feedback = document.getElementById('game-feedback');
+  const correct = (guessedDelayed === f.delayed);
+
+  document.getElementById('btn-ontime').disabled = true;
+  document.getElementById('btn-delayed').disabled = true;
+
+  if (correct) {
+    score++;
+    streak++;
+    feedback.className = 'alert alert-success text-center py-2';
+    feedback.innerHTML = `<strong>Correct! 🎉</strong> Actual departure delay: ${f.delayMin > 0 ? '+' : ''}${f.delayMin} min.<br><span class="small">${f.fact}</span>`;
+  } else {
+    streak = 0;
+    feedback.className = 'alert alert-danger text-center py-2';
+    feedback.innerHTML = `<strong>Not quite! ✈️</strong> Actual departure delay: ${f.delayMin > 0 ? '+' : ''}${f.delayMin} min.<br><span class="small">${f.fact}</span>`;
+  }
+  feedback.classList.remove('d-none');
+  document.getElementById('game-score').innerText = score;
+  document.getElementById('game-total').innerText = total;
+  document.getElementById('game-streak').innerText = streak;
+  document.getElementById('btn-next').classList.remove('d-none');
+}
+
+function nextRound() {
+  currentIdx = (currentIdx + 1) % flights.length;
+  loadFlight();
+}
+
+document.addEventListener("DOMContentLoaded", loadFlight);
+if (document.readyState === "complete" || document.readyState === "interactive") {
+  loadFlight();
+}
+</script>
+```
+
+```{=html}
+<!-- Minimal Production Footer -->
+<footer class="aviation-footer">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+    <div class="mb-2 mb-md-0">
+      <strong style="color: #14283F;">AeroIntel</strong> &bull; Aviation Operations &amp; Delay Intelligence Platform
+    </div>
+    <div class="text-secondary">
+      Data: U.S. DOT Bureau of Transportation Statistics &amp; FAA &bull; System Status: <span style="color: #25845D; font-weight: 600;">Operational</span>
+    </div>
+  </div>
+</footer>
+```

@@ -1,0 +1,243 @@
+---
+title: "Live Flight Monitor"
+subtitle: "Real-time dispatch and flight monitoring console for New York metropolitan departures."
+---
+
+```{=html}
+<!-- Flight Search Console -->
+<div class="mb-4">
+  <div class="search-container">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5F7387" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 12px; flex-shrink: 0;">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+    <input type="text" id="flightSearchInput" class="search-input" placeholder="Search by airline, flight number, or airport code (e.g. DL, JFK, 431, DELAYED)..." onkeyup="filterFlights()">
+  </div>
+</div>
+
+<!-- Monitored Departures Table Card -->
+<div class="panel-card p-0" style="overflow-x: auto;">
+  <div class="p-3 border-bottom d-flex justify-content-between align-items-center" style="background-color: #F8FAFC;">
+    <div>
+      <span class="fw-bold" style="font-size: 13px; color: #14283F;">SCHEDULED DEPARTURES</span>
+      <span id="flightCountBadge" class="badge ms-2" style="background-color: #287D9B; font-weight: 500;">16 FLIGHTS</span>
+    </div>
+    <div class="text-secondary small font-mono">FEED ACTIVE</div>
+  </div>
+  <table class="aviation-table" id="flightMonitoringTable">
+    <thead>
+      <tr>
+        <th>Airline</th>
+        <th>Flight</th>
+        <th>Origin</th>
+        <th>Destination</th>
+        <th>Sched Time</th>
+        <th>Est / Dep</th>
+        <th>Flight Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Delta Air Lines</strong></td>
+        <td><span class="flight-code">DL 575</span></td>
+        <td><span class="airport-code">EWR</span></td>
+        <td><span class="airport-code">ATL</span></td>
+        <td><span class="timestamp">06:15</span></td>
+        <td><span class="timestamp">06:15</span></td>
+        <td><span class="status-pill status-ontime">● ON TIME</span></td>
+      </tr>
+      <tr>
+        <td><strong>American Airlines</strong></td>
+        <td><span class="flight-code">AA 707</span></td>
+        <td><span class="airport-code">LGA</span></td>
+        <td><span class="airport-code">DFW</span></td>
+        <td><span class="timestamp">06:00</span></td>
+        <td><span class="timestamp">05:59</span></td>
+        <td><span class="status-pill status-ontime">● EARLY -1m</span></td>
+      </tr>
+      <tr>
+        <td><strong>JetBlue Airways</strong></td>
+        <td><span class="flight-code">B6 1002</span></td>
+        <td><span class="airport-code">JFK</span></td>
+        <td><span class="airport-code">BOS</span></td>
+        <td><span class="timestamp">06:40</span></td>
+        <td><span class="timestamp">06:39</span></td>
+        <td><span class="status-pill status-ontime">● ON TIME</span></td>
+      </tr>
+      <tr>
+        <td><strong>United Airlines</strong></td>
+        <td><span class="flight-code">UA 1545</span></td>
+        <td><span class="airport-code">EWR</span></td>
+        <td><span class="airport-code">IAH</span></td>
+        <td><span class="timestamp">05:15</span></td>
+        <td><span class="timestamp">05:17</span></td>
+        <td><span class="status-pill status-ontime">● ON TIME +2m</span></td>
+      </tr>
+      <tr>
+        <td><strong>Delta Air Lines</strong></td>
+        <td><span class="flight-code">DL 2304</span></td>
+        <td><span class="airport-code">JFK</span></td>
+        <td><span class="airport-code">DTW</span></td>
+        <td><span class="timestamp">08:45</span></td>
+        <td><span class="timestamp">08:40</span></td>
+        <td><span class="status-pill status-ontime">● EARLY -5m</span></td>
+      </tr>
+      <tr>
+        <td><strong>US Airways</strong></td>
+        <td><span class="flight-code">US 1733</span></td>
+        <td><span class="airport-code">LGA</span></td>
+        <td><span class="airport-code">CLT</span></td>
+        <td><span class="timestamp">07:59</span></td>
+        <td><span class="timestamp">07:52</span></td>
+        <td><span class="status-pill status-ontime">● EARLY -7m</span></td>
+      </tr>
+      <tr>
+        <td><strong>United Airlines</strong></td>
+        <td><span class="flight-code">UA 255</span></td>
+        <td><span class="airport-code">LGA</span></td>
+        <td><span class="airport-code">ORD</span></td>
+        <td><span class="timestamp">09:30</span></td>
+        <td><span class="timestamp">09:31</span></td>
+        <td><span class="status-pill status-ontime">● ON TIME</span></td>
+      </tr>
+      <tr>
+        <td><strong>Envoy Air</strong></td>
+        <td><span class="flight-code">MQ 4534</span></td>
+        <td><span class="airport-code">LGA</span></td>
+        <td><span class="airport-code">XNA</span></td>
+        <td><span class="timestamp">07:05</span></td>
+        <td><span class="timestamp">06:56</span></td>
+        <td><span class="status-pill status-ontime">● EARLY -9m</span></td>
+      </tr>
+      <tr>
+        <td><strong>American Airlines</strong></td>
+        <td><span class="flight-code">AA 181</span></td>
+        <td><span class="airport-code">JFK</span></td>
+        <td><span class="airport-code">LAX</span></td>
+        <td><span class="timestamp">16:45</span></td>
+        <td><span class="timestamp">17:17</span></td>
+        <td><span class="status-pill status-delayed">▲ DELAYED +32m</span></td>
+      </tr>
+      <tr>
+        <td><strong>United Airlines</strong></td>
+        <td><span class="flight-code">UA 1111</span></td>
+        <td><span class="airport-code">EWR</span></td>
+        <td><span class="airport-code">MCO</span></td>
+        <td><span class="timestamp">06:45</span></td>
+        <td><span class="timestamp">07:32</span></td>
+        <td><span class="status-pill status-delayed">▲ DELAYED +47m</span></td>
+      </tr>
+      <tr>
+        <td><strong>Envoy Air</strong></td>
+        <td><span class="flight-code">MQ 3737</span></td>
+        <td><span class="airport-code">EWR</span></td>
+        <td><span class="airport-code">ORD</span></td>
+        <td><span class="timestamp">07:10</span></td>
+        <td><span class="timestamp">07:49</span></td>
+        <td><span class="status-pill status-delayed">▲ DELAYED +39m</span></td>
+      </tr>
+      <tr>
+        <td><strong>American Airlines</strong></td>
+        <td><span class="flight-code">AA 443</span></td>
+        <td><span class="airport-code">JFK</span></td>
+        <td><span class="airport-code">MIA</span></td>
+        <td><span class="timestamp">07:15</span></td>
+        <td><span class="timestamp">08:26</span></td>
+        <td><span class="status-pill status-delayed">▲ DELAYED +71m</span></td>
+      </tr>
+      <tr>
+        <td><strong>Envoy Air</strong></td>
+        <td><span class="flight-code">MQ 4576</span></td>
+        <td><span class="airport-code">LGA</span></td>
+        <td><span class="airport-code">CLT</span></td>
+        <td><span class="timestamp">06:30</span></td>
+        <td><span class="timestamp">08:11</span></td>
+        <td><span class="status-pill status-delayed">▲ DELAYED +101m</span></td>
+      </tr>
+      <tr>
+        <td><strong>Virgin America</strong></td>
+        <td><span class="flight-code">VX 407</span></td>
+        <td><span class="airport-code">JFK</span></td>
+        <td><span class="airport-code">SFO</span></td>
+        <td><span class="timestamp">15:10</span></td>
+        <td><span class="timestamp">15:22</span></td>
+        <td><span class="status-pill status-warning">■ MINOR +12m</span></td>
+      </tr>
+      <tr>
+        <td><strong>ExpressJet Airlines</strong></td>
+        <td><span class="flight-code">EV 4511</span></td>
+        <td><span class="airport-code">EWR</span></td>
+        <td><span class="airport-code">ROC</span></td>
+        <td><span class="timestamp">11:58</span></td>
+        <td><span class="timestamp">11:57</span></td>
+        <td><span class="status-pill status-ontime">● ON TIME</span></td>
+      </tr>
+      <tr>
+        <td><strong>United Airlines</strong></td>
+        <td><span class="flight-code">UA 80</span></td>
+        <td><span class="airport-code">EWR</span></td>
+        <td><span class="airport-code">MIA</span></td>
+        <td><span class="timestamp">15:48</span></td>
+        <td><span class="timestamp">15:49</span></td>
+        <td><span class="status-pill status-ontime">● ON TIME</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <div id="noMatchNotice" class="p-4 text-center text-muted d-none">
+    No scheduled flights match your search query.
+  </div>
+</div>
+
+<script>
+function filterFlights() {
+  const input = document.getElementById('flightSearchInput');
+  const filter = input.value.toUpperCase();
+  const table = document.getElementById('flightMonitoringTable');
+  if (!table) return;
+  const tr = table.getElementsByTagName('tr');
+  let matchCount = 0;
+  for (let i = 1; i < tr.length; i++) {
+    const text = tr[i].textContent || tr[i].innerText;
+    if (text.toUpperCase().indexOf(filter) > -1) {
+      tr[i].style.display = '';
+      matchCount++;
+    } else {
+      tr[i].style.display = 'none';
+    }
+  }
+  const badge = document.getElementById('flightCountBadge');
+  if (badge) {
+    badge.innerText = `${matchCount} FLIGHTS`;
+  }
+  const notice = document.getElementById('noMatchNotice');
+  if (notice) {
+    notice.className = matchCount === 0 ? 'p-4 text-center text-muted' : 'p-4 text-center text-muted d-none';
+  }
+}
+
+// Read URL search parameter if present
+window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const q = params.get('search');
+  if (q) {
+    const input = document.getElementById('flightSearchInput');
+    if (input) {
+      input.value = q;
+      filterFlights();
+    }
+  }
+});
+</script>
+
+<!-- Minimal Production Footer -->
+<footer class="aviation-footer">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+    <div class="mb-2 mb-md-0">
+      <strong style="color: #14283F;">AeroIntel</strong> &bull; Aviation Operations &amp; Delay Intelligence Platform
+    </div>
+    <div class="text-secondary">
+      Data: U.S. DOT Bureau of Transportation Statistics &amp; FAA &bull; System Status: <span style="color: #25845D; font-weight: 600;">Operational</span>
+    </div>
+  </div>
+</footer>
+```

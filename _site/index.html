@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>What Causes Flight Delays?</title>
+<title>Flight Performance Overview – AeroIntel</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -25,41 +25,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -80,7 +45,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-977607561cd60f84a551947bb62c3781.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-27b7838b26a17a7416efdb337244e13d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -110,6 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -119,11 +85,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/aero-logo.svg" alt="" class="navbar-logo light-content">
+    <img src="./images/aero-logo.svg" alt="" class="navbar-logo dark-content">
+    </a>
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">What Causes Flight Delays?</span>
+    <span class="navbar-title">AeroIntel</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -131,7 +100,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link active" href="./index.html" aria-current="page"> 
-<span class="menu-text">Home</span></a>
+<span class="menu-text">Overview</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./monitoring.html"> 
+<span class="menu-text">Live Monitor</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./analytics.html"> 
+<span class="menu-text">Analytics</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./airports.html"> 
+<span class="menu-text">Airport Performance</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./game.html"> 
+<span class="menu-text">Delay Guesser</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -144,16 +129,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Navigation</h2>
+   
+  <ul>
+  <li><a href="#operational-summary" id="toc-operational-summary" class="nav-link active" data-scroll-target="#operational-summary">Operational Summary</a></li>
+  <li><a href="#official-delay-attribution-bts-benchmark" id="toc-official-delay-attribution-bts-benchmark" class="nav-link" data-scroll-target="#official-delay-attribution-bts-benchmark">Official Delay Attribution (BTS Benchmark)</a></li>
+  <li><a href="#platform-navigation-modules" id="toc-platform-navigation-modules" class="nav-link" data-scroll-target="#platform-navigation-modules">Platform Navigation Modules</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">What Causes Flight Delays?</h1>
-<p class="subtitle lead">A look at departures from New York City in 2013</p>
+<h1 class="title">Flight Performance Overview</h1>
+<p class="subtitle lead">Aviation intelligence and operational delay analytics across New York metropolitan hubs (JFK, LGA, EWR).</p>
 </div>
 
 
@@ -171,279 +164,211 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <div class="mb-4">
-<p><img src="images/planes.jpg" class="img-fluid" style="border-radius: 12px; max-height: 360px; object-fit: cover; box-shadow: 0 4px 12px rgba(0,0,0,0.08);;width:100.0%" alt="Commercial airplanes at an airport terminal"></p>
+<p><img src="images/planes.jpg" class="img-fluid" style="border-radius: 8px; max-height: 280px; object-fit: cover; box-shadow: 0 2px 8px rgba(20,40,63,0.1); border: 1px solid #D4E3ED;;width:100.0%" alt="Commercial airplanes at terminal gates"></p>
 </div>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Overview</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Departure Time</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Delay Distribution</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Interactive Game</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">About the Data</a></li></ul>
-<div class="tab-content">
-<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<section id="how-often-are-flights-delayed" class="level3">
-<h3 class="anchored" data-anchor-id="how-often-are-flights-delayed">How Often Are Flights Delayed?</h3>
-<p>Across all <strong>328,521 departed flights</strong> from New York City (JFK, LGA, EWR) in 2013, the majority left on schedule:</p>
+<!-- Flight Search Feature -->
+<div class="mb-4">
+  <div class="search-container">
+    <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="#5F7387" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 12px; flex-shrink: 0;">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+    <input type="text" id="flightSearchInput" class="search-input" placeholder="Search operations platform by flight number, airline, or airport code..." onkeydown="if(event.key === 'Enter') window.location.href='monitoring.html?search=' + encodeURIComponent(this.value)">
+  </div>
+</div>
+
+<!-- Analytical KPI Cards -->
+<div class="row g-3 mb-4">
+  <div class="col-6 col-lg-3">
+    <div class="kpi-card">
+      <div class="kpi-label">Total Departures</div>
+      <div class="kpi-value">328,521</div>
+      <div class="kpi-subtext">Commercial flights indexed</div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="kpi-card">
+      <div class="kpi-label">FAA Delayed Flights</div>
+      <div class="kpi-value text-danger">70,774</div>
+      <div class="kpi-subtext">21.5% exceed 15-min mark</div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="kpi-card">
+      <div class="kpi-label">On-Time Performance</div>
+      <div class="kpi-value text-success">78.5%</div>
+      <div class="kpi-subtext">≤ 15 min of timetable</div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="kpi-card">
+      <div class="kpi-label">Average Delay</div>
+      <div class="kpi-value" style="color: #14283F;">+12.6<span style="font-size: 15px; font-weight: normal; margin-left: 4px; color: #5F7387;">min</span></div>
+      <div class="kpi-subtext">System-wide mean delay</div>
+    </div>
+  </div>
+</div>
+<section id="operational-summary" class="level3">
+<h3 class="anchored" data-anchor-id="operational-summary">Operational Summary</h3>
+<p>Across all <strong>328,521 departed flights</strong> originating from New York City (JFK, LGA, EWR) in 2013, the majority left within standard operating windows:</p>
 <div class="row text-center g-3 my-3">
   <div class="col-6 col-md-3">
-    <div class="card h-100 border-0 shadow-sm p-3 bg-light rounded-3">
-      <div class="text-muted small text-uppercase fw-bold">On-Time / Early</div>
-      <div class="display-6 fw-bold text-success">60.9%</div>
-      <div class="small text-secondary">200,089 flights (≤ 0 min)</div>
+    <div class="kpi-card">
+      <div class="kpi-label">On-Time / Early</div>
+      <div class="kpi-value text-success">60.9%</div>
+      <div class="kpi-subtext">200,089 flights (≤ 0 min)</div>
     </div>
   </div>
   <div class="col-6 col-md-3">
-    <div class="card h-100 border-0 shadow-sm p-3 bg-light rounded-3">
-      <div class="text-muted small text-uppercase fw-bold">Minor Delay</div>
-      <div class="display-6 fw-bold text-primary">17.6%</div>
-      <div class="small text-secondary">57,658 flights (1–15 min)</div>
+    <div class="kpi-card">
+      <div class="kpi-label">Minor Delay</div>
+      <div class="kpi-value" style="color: #287D9B;">17.6%</div>
+      <div class="kpi-subtext">57,658 flights (1–15 min)</div>
     </div>
   </div>
   <div class="col-6 col-md-3">
-    <div class="card h-100 border-0 shadow-sm p-3 bg-light rounded-3">
-      <div class="text-muted small text-uppercase fw-bold">FAA Delayed</div>
-      <div class="display-6 fw-bold text-warning">21.5%</div>
-      <div class="small text-secondary">70,774 flights (&gt; 15 min)</div>
+    <div class="kpi-card">
+      <div class="kpi-label">FAA Delayed</div>
+      <div class="kpi-value text-warning">21.5%</div>
+      <div class="kpi-subtext">70,774 flights (&gt; 15 min)</div>
     </div>
   </div>
   <div class="col-6 col-md-3">
-    <div class="card h-100 border-0 shadow-sm p-3 bg-light rounded-3">
-      <div class="text-muted small text-uppercase fw-bold">Severe Delay</div>
-      <div class="display-6 fw-bold text-danger">8.1%</div>
-      <div class="small text-secondary">26,581 flights (&gt; 60 min)</div>
+    <div class="kpi-card">
+      <div class="kpi-label">Severe Delay</div>
+      <div class="kpi-value text-danger">8.1%</div>
+      <div class="kpi-subtext">26,581 flights (&gt; 60 min)</div>
     </div>
   </div>
 </div>
 <ul>
-<li><strong>60.9%</strong> departed early or on the exact minute.</li>
-<li><strong>17.6%</strong> experienced minor delays under 15 minutes, which airlines still classify as “on-time” under standard aviation metrics.</li>
-<li><strong>21.5%</strong> were officially delayed by more than 15 minutes.</li>
-<li><strong>8.1%</strong> suffered major disruptions exceeding an hour.</li>
+<li><strong>60.9%</strong> departed early or on the exact scheduled minute.</li>
+<li><strong>17.6%</strong> experienced minor adjustments under 15 minutes, which commercial airlines classify as on-time under FAA standard A14 metrics.</li>
+<li><strong>21.5%</strong> incurred official delays exceeding 15 minutes.</li>
+<li><strong>8.1%</strong> suffered acute disruptions exceeding 60 minutes.</li>
 </ul>
 <hr>
 </section>
-<section id="what-actually-causes-flight-delays" class="level3">
-<h3 class="anchored" data-anchor-id="what-actually-causes-flight-delays">What Actually Causes Flight Delays?</h3>
-<p>Flight delays are rarely isolated events. According to official records from the <strong>Bureau of Transportation Statistics (BTS)</strong> and Federal Aviation Administration (FAA), the most common drivers of flight delays are:</p>
-<ul>
-<li><strong>1. Late-Arriving Aircraft (~38% of all delay minutes)</strong>
-<ul>
-<li><em>The “Domino Effect”:</em> Commercial aircraft fly multiple legs per day. When a morning flight into New York arrives 45 minutes late, its afternoon departure is automatically delayed, carrying the delay across the entire network.</li>
-</ul></li>
-<li><strong>2. Air Carrier Operations (~30% of delay minutes)</strong>
-<ul>
-<li>Issues directly under the airline’s management, including mechanical maintenance checks, crew duty-hour limits, baggage loading bottlenecks, and aircraft cleaning/fueling turnaround times.</li>
-</ul></li>
-<li><strong>3. National Aviation System &amp; Airspace Congestion (~24% of delay minutes)</strong>
-<ul>
-<li>Heavy air traffic volume requiring air traffic control (ATC) spacing, runway congestion at peak travel hours, and airport ground stops. NYC airports are among the most congested in the nation.</li>
-</ul></li>
-<li><strong>4. Severe Weather (~7% of delay minutes)</strong>
-<ul>
-<li>Extreme conditions such as thunderstorms, snow blizzards, heavy fog, and high wind shears that halt takeoffs or close flight corridors for passenger safety.</li>
-</ul></li>
-<li><strong>5. Security Breaches (&lt;1% of delay minutes)</strong>
-<ul>
-<li>Rare terminal re-screenings or security perimeter incidents.</li>
-</ul></li>
-</ul>
+<section id="official-delay-attribution-bts-benchmark" class="level3">
+<h3 class="anchored" data-anchor-id="official-delay-attribution-bts-benchmark">Official Delay Attribution (BTS Benchmark)</h3>
+<p>Official records from the <strong>Bureau of Transportation Statistics (BTS)</strong> and Federal Aviation Administration identify five core drivers of schedule delays:</p>
+<div class="row g-3 my-3">
+  <div class="col-12 col-md-6">
+    <div class="cause-item">
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <strong style="color: #14283F; font-size: 13px;">1. Late-Arriving Aircraft (Network Propagation)</strong>
+        <span class="font-mono text-muted small fw-bold">~38%</span>
+      </div>
+      <div class="cause-bar-bg"><div class="cause-bar-fill" style="width: 38%; background-color: #287D9B;"></div></div>
+      <div class="small text-secondary mt-2">Planes fly multiple route segments each day. Upstream inbound delays automatically cascade downstream to subsequent flights.</div>
+    </div>
+  </div>
+  <div class="col-12 col-md-6">
+    <div class="cause-item">
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <strong style="color: #14283F; font-size: 13px;">2. Air Carrier Operations</strong>
+        <span class="font-mono text-muted small fw-bold">~30%</span>
+      </div>
+      <div class="cause-bar-bg"><div class="cause-bar-fill" style="width: 30%; background-color: #287D9B;"></div></div>
+      <div class="small text-secondary mt-2">Operational factors under carrier oversight: unscheduled maintenance, crew legal duty hour caps, ramp baggage handling, and cabin turnaround.</div>
+    </div>
+  </div>
+  <div class="col-12 col-md-6">
+    <div class="cause-item">
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <strong style="color: #14283F; font-size: 13px;">3. NAS &amp; Airspace Congestion</strong>
+        <span class="font-mono text-muted small fw-bold">~24%</span>
+      </div>
+      <div class="cause-bar-bg"><div class="cause-bar-fill" style="width: 24%; background-color: #263F57;"></div></div>
+      <div class="small text-secondary mt-2">Air traffic control route spacing, high terminal-area density, ground delay programs (GDP), and airport surface taxiway queues.</div>
+    </div>
+  </div>
+  <div class="col-12 col-md-6">
+    <div class="cause-item">
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <strong style="color: #14283F; font-size: 13px;">4. Severe Weather Disruptions</strong>
+        <span class="font-mono text-muted small fw-bold">~7%</span>
+      </div>
+      <div class="cause-bar-bg"><div class="cause-bar-fill" style="width: 7%; background-color: #D69A43;"></div></div>
+      <div class="small text-secondary mt-2">Meteorological events requiring airspace corridor rerouting or safety ground stops (thunderstorms, snowstorms, visibility minima).</div>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="cause-item">
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <strong style="color: #14283F; font-size: 13px;">5. Security Breaches</strong>
+        <span class="font-mono text-muted small fw-bold">&lt;1%</span>
+      </div>
+      <div class="cause-bar-bg"><div class="cause-bar-fill" style="width: 1%; background-color: #C65353;"></div></div>
+      <div class="small text-secondary mt-2">Infrequent terminal concourse re-screenings or security perimeter hold procedures.</div>
+    </div>
+  </div>
+</div>
+<hr>
 </section>
+<section id="platform-navigation-modules" class="level3">
+<h3 class="anchored" data-anchor-id="platform-navigation-modules">Platform Navigation Modules</h3>
+<p>Explore dedicated analytical modules across the platform:</p>
+<div class="row g-3 my-3">
+  <div class="col-12 col-md-6 col-lg-3">
+    <a href="monitoring.html" class="text-decoration-none">
+      <div class="panel-card h-100 hover-card p-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <strong style="color: #14283F; font-size: 14px;">Live Monitor</strong>
+          <span class="badge" style="background-color: #287D9B;">TABLE</span>
+        </div>
+        <p class="text-secondary small mb-0">Searchable dispatch table tracking active flights, gates, departure deltas, and live statuses.</p>
+      </div>
+    </a>
+  </div>
+  <div class="col-12 col-md-6 col-lg-3">
+    <a href="analytics.html" class="text-decoration-none">
+      <div class="panel-card h-100 hover-card p-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <strong style="color: #14283F; font-size: 14px;">Interactive Analytics</strong>
+          <span class="badge" style="background-color: #14283F;">PLOTLY</span>
+        </div>
+        <p class="text-secondary small mb-0">Explore interactive delay curves, distribution histograms, and carrier benchmarks with hover tooltips.</p>
+      </div>
+    </a>
+  </div>
+  <div class="col-12 col-md-6 col-lg-3">
+    <a href="airports.html" class="text-decoration-none">
+      <div class="panel-card h-100 hover-card p-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <strong style="color: #14283F; font-size: 14px;">Airport Performance</strong>
+          <span class="badge" style="background-color: #263F57;">HUBS</span>
+        </div>
+        <p class="text-secondary small mb-0">Metropolitan comparison of LGA, JFK, and EWR alongside top delayed destination bottlenecks.</p>
+      </div>
+    </a>
+  </div>
+  <div class="col-12 col-md-6 col-lg-3">
+    <a href="game.html" class="text-decoration-none">
+      <div class="panel-card h-100 hover-card p-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <strong style="color: #14283F; font-size: 14px;">Delay Guesser</strong>
+          <span class="badge" style="background-color: #D69A43;">GAME</span>
+        </div>
+        <p class="text-secondary small mb-0">Interactive operational simulator testing your intuition on real-world flight delays.</p>
+      </div>
+    </a>
+  </div>
 </div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<p>Each dot below represents one flight with a recorded departure delay. The horizontal axis is its <strong>scheduled</strong> departure time; the vertical axis is how many minutes early or late it actually departed. The view is zoomed to delays between 30 minutes early and 3 hours late to show the primary cluster.</p>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(dep_delay)) <span class="sc">|&gt;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">scheduled_hour =</span> sched_dep_time <span class="sc">%/%</span> <span class="dv">100</span> <span class="sc">+</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      (sched_dep_time <span class="sc">%%</span> <span class="dv">100</span>) <span class="sc">/</span> <span class="dv">60</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> scheduled_hour, <span class="at">y =</span> dep_delay)) <span class="sc">+</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.08</span>, <span class="at">size =</span> <span class="fl">0.35</span>, <span class="at">color =</span> <span class="st">"#176B87"</span>) <span class="sc">+</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">24</span>, <span class="at">by =</span> <span class="dv">3</span>),</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">24</span>),</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> \(x) <span class="fu">sprintf</span>(<span class="st">"%02d:00"</span>, x)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">30</span>, <span class="dv">180</span>)) <span class="sc">+</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Scheduled departure time"</span>,</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Departure delay (minutes)"</span>,</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Flights with missing departure-delay values are omitted."</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output-display">
-<div id="fig-scatter" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="index_files/figure-html/fig-scatter-1.png" class="img-fluid figure-img" width="864">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Each point is a flight; the y-axis is zoomed to show the main cluster.
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<section id="key-takeaways-from-the-scatter-plot" class="level3">
-<h3 class="anchored" data-anchor-id="key-takeaways-from-the-scatter-plot">Key Takeaways from the Scatter Plot</h3>
-<ul>
-<li><strong>Early morning flights are most reliable:</strong> Flights scheduled between 5:00 AM and 8:00 AM cluster tightly near zero delay.</li>
-<li><strong>Delays build throughout the day:</strong> As planes fly multiple legs, earlier delays propagate, creating a taller spread of delays in the afternoon and evening.</li>
-<li><strong>Many flights depart early:</strong> Negative delay values (below 0) represent flights leaving up to 15–30 minutes ahead of schedule.</li>
-<li><strong>Extreme delays concentrate late:</strong> Delays exceeding 2 hours become noticeably more frequent after 3:00 PM.</li>
-</ul>
+<!-- Minimal Production Footer -->
+<footer class="aviation-footer">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+    <div class="mb-2 mb-md-0">
+      <strong style="color: #14283F;">AeroIntel</strong> • Aviation Operations &amp; Delay Intelligence Platform
+    </div>
+    <div class="text-secondary">
+      Data: U.S. DOT Bureau of Transportation Statistics &amp; FAA • System Status: <span style="color: #25845D; font-weight: 600;">Operational</span>
+    </div>
+  </div>
+</footer>
+
+
 </section>
-</div>
-<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
-<p>This histogram summarizes flight records into 5-minute bins. The bar heights show how many flights fell into each delay range, and the red dashed line marks the 15-minute delay mark.</p>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(dep_delay)) <span class="sc">|&gt;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> dep_delay)) <span class="sc">+</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">fill =</span> <span class="st">"#176B87"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">xintercept =</span> <span class="dv">15</span>,</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"#C4492D"</span>,</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="fl">0.8</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">30</span>, <span class="dv">180</span>)) <span class="sc">+</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Departure delay (minutes; early departures are negative)"</span>,</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of flights"</span>,</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"The x-axis is zoomed to −30 to 180 minutes; the dashed line is 15 minutes late."</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output-display">
-<div id="fig-histogram" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-histogram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="index_files/figure-html/fig-histogram-1.png" class="img-fluid figure-img" width="864">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-histogram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Departure-delay counts for 328,521 flights with recorded values.
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<section id="key-takeaways-from-the-histogram" class="level3">
-<h3 class="anchored" data-anchor-id="key-takeaways-from-the-histogram">Key Takeaways from the Histogram</h3>
-<ul>
-<li><strong>Strong peak near zero:</strong> The single most common outcome is departing right on time or within 5 minutes of schedule.</li>
-<li><strong>Most flights leave on time:</strong> Out of <strong>328,521 flights</strong>, <strong>200,089</strong> (about 61%) left on time or early.</li>
-<li><strong>The 15-minute threshold:</strong> Under FAA standards, flights delayed under 15 minutes are considered on-time. Only <strong>70,774</strong> flights (about 21.5%) were officially delayed.</li>
-<li><strong>Right-skewed distribution:</strong> Long delays decrease sharply in frequency—delays over 2 hours are relatively rare compared to small delays.</li>
-</ul>
-</section>
-</div>
-<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
-<p>Test your intuition! Can you guess whether a flight was delayed based on its departure airport, time, and carrier?</p>
-<div class="card p-4 shadow-sm my-3" style="max-width: 620px; margin: 0 auto; border-radius: 12px; background-color: #fdfdfd;">
-  <h4 class="card-title text-center mb-2 anchored">✈️ Flight Delay Guesser</h4>
-  <p class="text-center text-muted small">An FAA delayed flight is more than 15 minutes late. Can you beat the odds?</p>
-  
-  <div id="game-card" class="bg-light p-3 rounded mb-3 text-center border">
-    <h5 id="flight-info" class="fw-bold mb-1 anchored">Loading flight...</h5>
-    <p id="flight-details" class="text-secondary mb-0 small"></p>
-  </div>
-
-  <div class="d-flex justify-content-center gap-3 mb-3">
-    <button id="btn-ontime" class="btn btn-outline-success px-4" onclick="makeGuess(false)">✅ On Time</button>
-    <button id="btn-delayed" class="btn btn-outline-danger px-4" onclick="makeGuess(true)">⏰ Delayed</button>
-  </div>
-
-  <div id="game-feedback" class="alert d-none text-center" role="alert"></div>
-
-  <div class="d-flex justify-content-around text-center border-top pt-2 mt-2">
-    <div><small class="text-muted">Score:</small><br><strong><span id="game-score">0</span> / <span id="game-total">0</span></strong></div>
-    <div><small class="text-muted">Streak:</small><br><strong><span id="game-streak">0</span> 🔥</strong></div>
-  </div>
-  
-  <div class="text-center mt-3">
-    <button id="btn-next" class="btn btn-primary btn-sm d-none" onclick="nextRound()">Next Flight ➡️</button>
-  </div>
-</div>
-
-<script>
-const flights = [
-  { origin: "JFK", carrier: "Delta Air Lines", dest: "Los Angeles (LAX)", time: "06:15 AM", delayed: false, delayMin: -3, fact: "Early morning flights are much less likely to be delayed because planes are already at the gate!" },
-  { origin: "EWR", carrier: "United Airlines", dest: "San Francisco (SFO)", time: "07:30 PM", delayed: true, delayMin: 68, fact: "Evening flights often absorb delays accumulated across the national airspace throughout the day." },
-  { origin: "LGA", carrier: "American Airlines", dest: "Chicago (ORD)", time: "08:45 AM", delayed: false, delayMin: 4, fact: "Morning departures at LGA frequently stay close to their scheduled timetable." },
-  { origin: "JFK", carrier: "JetBlue", dest: "Orlando (MCO)", time: "05:40 PM", delayed: true, delayMin: 42, fact: "Late afternoon flights face congestion as both business and leisure travel peak." },
-  { origin: "EWR", carrier: "ExpressJet", dest: "Atlanta (ATL)", time: "09:00 PM", delayed: true, delayMin: 115, fact: "Late night regional flights are especially prone to severe cascading delays." },
-  { origin: "LGA", carrier: "Delta Air Lines", dest: "Miami (MIA)", time: "11:00 AM", delayed: false, delayMin: 0, fact: "Mid-morning departures often experience smooth turnarounds." },
-  { origin: "JFK", carrier: "Virgin America", dest: "San Francisco (SFO)", time: "03:10 PM", delayed: false, delayMin: 12, fact: "Delayed by 12 minutes—which still counts as on-time under the official 15-minute FAA rule!" },
-  { origin: "EWR", carrier: "United Airlines", dest: "Denver (DEN)", time: "04:20 PM", delayed: true, delayMin: 55, fact: "Late afternoon departure banks at Newark frequently encounter runway queue delays." }
-];
-
-let currentIdx = 0;
-let score = 0;
-let total = 0;
-let streak = 0;
-let answered = false;
-
-function loadFlight() {
-  answered = false;
-  const f = flights[currentIdx];
-  document.getElementById('flight-info').innerText = `${f.origin} ✈️ ${f.dest}`;
-  document.getElementById('flight-details').innerText = `Carrier: ${f.carrier} | Scheduled: ${f.time}`;
-  const feedback = document.getElementById('game-feedback');
-  feedback.className = 'alert d-none text-center';
-  document.getElementById('btn-next').classList.add('d-none');
-  document.getElementById('btn-ontime').disabled = false;
-  document.getElementById('btn-delayed').disabled = false;
-}
-
-function makeGuess(guessedDelayed) {
-  if (answered) return;
-  answered = true;
-  total++;
-  const f = flights[currentIdx];
-  const feedback = document.getElementById('game-feedback');
-  const correct = (guessedDelayed === f.delayed);
-
-  document.getElementById('btn-ontime').disabled = true;
-  document.getElementById('btn-delayed').disabled = true;
-
-  if (correct) {
-    score++;
-    streak++;
-    feedback.className = 'alert alert-success text-center py-2';
-    feedback.innerHTML = `<strong>Correct! 🎉</strong> Actual departure delay: ${f.delayMin > 0 ? '+' : ''}${f.delayMin} min.<br><span class="small">${f.fact}</span>`;
-  } else {
-    streak = 0;
-    feedback.className = 'alert alert-danger text-center py-2';
-    feedback.innerHTML = `<strong>Not quite! ✈️</strong> Actual departure delay: ${f.delayMin > 0 ? '+' : ''}${f.delayMin} min.<br><span class="small">${f.fact}</span>`;
-  }
-  feedback.classList.remove('d-none');
-  document.getElementById('game-score').innerText = score;
-  document.getElementById('game-total').innerText = total;
-  document.getElementById('game-streak').innerText = streak;
-  document.getElementById('btn-next').classList.remove('d-none');
-}
-
-function nextRound() {
-  currentIdx = (currentIdx + 1) % flights.length;
-  loadFlight();
-}
-
-document.addEventListener("DOMContentLoaded", loadFlight);
-if (document.readyState === "complete" || document.readyState === "interactive") {
-  loadFlight();
-}
-</script>
-</div>
-<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
-<p>The data come from the <a href="https://cran.r-project.org/package=nycflights13"><code>nycflights13</code> R package</a>. Each row represents a scheduled flight from JFK, LGA, or EWR in 2013. Missing departure delays generally correspond to flights that did not depart, so the charts describe flights with an observed departure—not cancellations.</p>
-</div>
-</div>
-</div>
-
-
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -519,7 +444,7 @@ if (document.readyState === "complete" || document.readyState === "interactive")
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/chloemercurio7\.github\.io\/Milestone-5\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

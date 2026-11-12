@@ -2,14 +2,29 @@ project:
   type: website
 
 website:
-  title: "What Causes Flight Delays?"
+  title: "AeroIntel"
   navbar:
+    logo: images/aero-logo.svg
+    background: "#14283F"
+    search: false
     left:
       - href: index.qmd
-        text: Home
+        text: Overview
+      - href: monitoring.qmd
+        text: Live Monitor
+      - href: analytics.qmd
+        text: Analytics
+      - href: airports.qmd
+        text: Airport Performance
+      - href: game.qmd
+        text: Delay Guesser
 
 format:
   html:
     theme: cosmo
+    css: styles.css
     toc: true
+    toc-location: right
+    toc-title: "Navigation"
     code-fold: true
+
